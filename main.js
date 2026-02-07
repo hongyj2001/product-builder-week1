@@ -29,4 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial generation
     const initialNumbers = generateLottoNumbers();
     displayNumbers(initialNumbers);
+
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Apply saved theme on load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        body.classList.add(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Check for OS preference if no theme is saved
+        body.classList.add('dark-mode');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light-mode');
+        } else {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark-mode');
+        }
+    });
 });
